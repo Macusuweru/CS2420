@@ -88,10 +88,8 @@ public class GraphUtilityTests {
     }
 
     @Test
-    public void areConnectedMismatchedLengthExceptionTest() {
-        ArrayList<Integer> dest = new ArrayList<>();
-        dest.add(0);
-        assertThrows(IllegalArgumentException.class, () -> areConnected(smallSources, dest, 0, 1));
+    public void areConnectedMismatchedSourcesExceptionTest() {
+        assertThrows(IllegalArgumentException.class, () -> areConnected(smallSources, medDest, 0, 1));
     }
 
     // --- shortestPath() Tests ---
@@ -127,6 +125,11 @@ public class GraphUtilityTests {
     }
 
     @Test
+    public void shortestPathMismatchedSourcesExceptionTest() {
+        assertThrows(IllegalArgumentException.class, () -> shortestPath(smallSources, medDest, 0, 1));
+    }
+
+    @Test
     public void shortestPathNoPathExceptionTest() {
         assertThrows(IllegalArgumentException.class, () -> shortestPath(medSources, medDest, 3, 4));
     }
@@ -153,7 +156,7 @@ public class GraphUtilityTests {
     }
 
     @Test
-    public void sortInvalidSourcesExceptionTest() {
+    public void sortMismatchedSourcesExceptionTest() {
         assertThrows(IllegalArgumentException.class, () -> sort(smallSources, medDest));
     }
 }
