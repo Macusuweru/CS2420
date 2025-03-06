@@ -3,23 +3,22 @@ package assign07;
 import java.util.*;
 
 /**
- * A basic implementation of an undirected graph using adjacency lists.
- * Vertices store unique values of generic type T.
- *
- * @author Maxwe// and Ashley Pedersen
- * @version March 3, 2025
+ * GraphUtility is a static class which contains several tools to interface with graphs, which are input as generic lists of sources and destinations.
+ * @author Maxwell, Ashley Pederson
+ * @version March 4, 2025
  */
 public class GraphUtility {
     /**
-     * Finds whether two vertices in a graph are connected.
-     * @param sources list of sources
-     * @param destinations list of destinations
-     * @param srcData the data in the source (start) vertex
-     * @param dstData the data in the destination vertex
-     * @return True if a path exists, false if no path exists
-     * @param <T> the type of the values inside vertexes
-     * @throws IllegalArgumentException if the sources and destination lists are different lengths or if the graph doesn't
-     * contain the source or destination.
+     * Determines if there is a connection between two vertices in the directed graph described by sources and destinations.
+     * Uses depth-first search to find a path between the source and destination vertices.
+     * 
+     * @param <T> the type of data stored in the graph vertices
+     * @param sources a list of source vertices for the graph edges
+     * @param destinations a list of destination vertices for the graph edges
+     * @param srcData the source vertex to start the search from
+     * @param dstData the destination vertex to find
+     * @return true if there is a path from srcData to dstData, false otherwise
+     * @throws IllegalArgumentException if sources and destinations are not the same size, or if srcData or dstData are not in the graph
      */
     public static <T> boolean areConnected(List<T> sources, List<T> destinations, T srcData, T dstData) {
         if (sources.size() != destinations.size()) throw new IllegalArgumentException();
@@ -38,15 +37,17 @@ public class GraphUtility {
     }
 
     /**
-     * Finds the shortest path between two vertices in a graph.
-     * @param sources list of sources
-     * @param destinations list of destinations
-     * @param srcData the data in the source (start) vertex
-     * @param dstData the data in the destination vertex
-     * @return a list of the data in each vertex in the shortest path
-     * @param <T> the type of the values inside vertexes
-     * @throws IllegalArgumentException if the sources and destination lists are different lengths, if the graph doesn't
-     * contain the source or destination, or if there is no path between the source and destination.
+     * Finds the shortest path between two vertices in the directed graph described by sources and destinations.
+     * Uses breadth-first search to find the shortest path between the source and destination vertices.
+     *
+     * @param <T> the type of data stored in the graph vertices
+     * @param sources a list of source vertices for the graph edges
+     * @param destinations a list of destination vertices for the graph edges
+     * @param srcData the source vertex to start the path from
+     * @param dstData the destination vertex to reach
+     * @return a list containing the vertices in the shortest path from srcData to dstData
+     * @throws IllegalArgumentException if sources and destinations are not the same size, if srcData or dstData are not in the graph,
+     *                                  or if there is no path from srcData to dstData
      */
     public static <T> List<T> shortestPath(List<T> sources, List<T> destinations, T srcData, T dstData) {
         if (sources.size() != destinations.size()) throw new IllegalArgumentException();
@@ -65,12 +66,15 @@ public class GraphUtility {
     }
 
     /**
-     * Sorts a graph using topological sort.
-     * @param sources list of sources
-     * @param destinations list of destinations
-     * @return list of vertexes in sorted order
-     * @param <T> the type of the values inside vertexes
-     * @throws IllegalArgumentException if the graph contains a cycle, or if sources & destinations lists are different lengths
+     * Performs a topological sort on the directed graph described by sources and destinations.
+     * A topological sort is a linear ordering of vertices such that for every directed edge (u,v),
+     * vertex u comes before vertex v in the ordering.
+     *
+     * @param <T> the type of data stored in the graph vertices
+     * @param sources a list of source vertices for the graph edges
+     * @param destinations a list of destination vertices for the graph edges
+     * @return a list containing the vertices in topological order
+     * @throws IllegalArgumentException if the graph contains a cycle (topological sort is only possible for acyclic graphs)
      */
     public static <T> List<T> sort(List<T> sources, List<T> destinations) {
         if (sources.size() != destinations.size()) throw new IllegalArgumentException();
@@ -82,8 +86,8 @@ public class GraphUtility {
             g.addEdge(sources.get(i), destinations.get(i));
         }
 
-        List<T> sorted = g.topoSort();
-        if (sorted.size() != g.size()) throw new IllegalArgumentException();
-        return sorted;
+        List<T> topo = g.topoSort();
+        if (topo.size() != g.size()) throw new IllegalArgumentException("Cyclic graph passed to sort");
+        return topo;
     }
 }
