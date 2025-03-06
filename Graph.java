@@ -5,7 +5,7 @@ import java.util.*;
  * A basic implementation of an undirected graph using adjacency lists.
  * Vertices store unique values of generic type T.
  *
- * @author Maxwe//
+ * @author Maxwe// and Ashley Pedersen
  * @version March 3, 2025
  * @param <T> the type of values stored in the vertices
  */
@@ -18,7 +18,16 @@ public class Graph<T> {
     public Graph() {
         graph = new HashMap<>();
     }
-    
+
+    /**
+     * Returns the number of vertices in the graph
+     *
+     * @return how many vertices the graph has
+     */
+    public int size() {
+        return graph.size();
+    }
+
     /**
      * Adds a vertex with the given value if it doesn't already exist.
      *
@@ -100,7 +109,7 @@ public class Graph<T> {
      * Depth first search implementation
      * 
      * @param source the source vertex
-     * @param destination the destination vectex
+     * @param destination the destination vertex
      * @return boolean if there is a path from source to target
      */
     public boolean depthFirstSearch(T source, T destination) {
@@ -111,12 +120,12 @@ public class Graph<T> {
         return dfsRecursive(source, destination, seen);
     }
     /**
-     * Private driver method for depth first search
-     * @param source 
-     * @param destination
-     * @param seen
+     * Private recursive method for depth first search
+     * @param source the source vertex
+     * @param destination the destination vertex
+     * @param seen a list of previously visited vertexes
      */
-    private dfsRecursive(T source, T destination, List<T> seen) {
+    private boolean dfsRecursive(T source, T destination, List<T> seen) {
         List<T> neighbors = getNeighbors(source);
         if (neighbors == null) return false;
         for (T i: neighbors) {
@@ -140,8 +149,11 @@ public class Graph<T> {
      * @throws IllegalArgumentException if there is no path between source and destination
      */
     public List<T> breadthFirstSearch(T source, T destination) {
-        if (source.equals(destination)) return true;
-        if (graph.get(source) == null) return false;
+        if (source.equals(destination)) {
+            ArrayList<T> result = new ArrayList<>();
+            result.add(source);
+            return result;
+        }
 
         Map<T,Integer> dist = new HashMap<>();
         Map<T, T> prev = new HashMap<>();
@@ -175,17 +187,17 @@ public class Graph<T> {
      */
     private List<T> bfsHelper(T source, T destination, Map<T, T> prev) {
         List<T> result = new ArrayList<>();
-        while (!current.equals(source)) {
+        while (!destination.equals(source)) {
             result.add(destination);
             destination = prev.get(destination);
         }
+        result.add(destination);
         Collections.reverse(result);
         return result;
     }
 
     /**
      * Implementation of topological sort
-     * @param
      */
     public List<T> topoSort() {
         List<T> result = new ArrayList<>();
@@ -209,7 +221,7 @@ public class Graph<T> {
                 Integer get = indegree.get(t) - 1;
                 indegree.put(t, get);
                 if (get == 0)
-                    q.offer(current);
+                    q.offer(t);
             }
         }
 

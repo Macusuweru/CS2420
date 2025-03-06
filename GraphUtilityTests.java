@@ -10,6 +10,12 @@ import java.util.List;
 import static assign07.GraphUtility.*;
 import static org.junit.jupiter.api.Assertions.*;
 
+/**
+ * Contains tests for the GraphUtility class.
+ *
+ * @author Maxwe// and Ashley Pedersen
+ * @version March 6, 2025
+ */
 public class GraphUtilityTests {
     List<Integer> smallSources;
     List<Integer> smallDest;
