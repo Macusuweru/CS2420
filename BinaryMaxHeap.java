@@ -172,7 +172,19 @@ public class BinaryMaxHeap<E> implements PriorityQueue<E> {
 				}
 			}
 		}
-		// 0 children: do nothing. 
+		// 0 children: do nothing.
+		//In the case that the final node with no children
+		else if (get(index) == null) {
+			E item = list[size];
+			// Percolate up.
+			int i = index;
+			// Stop if the parent is greater than the new entry, or we reached the head
+			while (index > 1 && cmp.compare(get(index / 2), item) < 0) {
+				list[index] = get(index / 2);
+				index = index / 2;
+			}
+			list[index] = item;
+		}
 	}
 	/**
 	 * Access the given index in the list array, casting it to E.
